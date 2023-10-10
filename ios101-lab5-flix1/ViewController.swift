@@ -7,24 +7,39 @@ import UIKit
 import Nuke
 
 // TODO: Add table view data source conformance
-class ViewController: UIViewController {
-
-
+class ViewController: UIViewController, UITableViewDataSource {
     // TODO: Add table view outlet
-
-
+    @IBOutlet weak var tableView: UITableView!
+    
     // TODO: Add property to store fetched movies array
-
-
+    private var movies: [Movie] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // TODO: Assign table view data source
-
+        tableView.dataSource = self
 
         fetchMovies()
     }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return movies.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Create the cell
+        let cell = UITableViewCell()
 
+        // Get the movie-associated table view row
+        let movie = movies[indexPath.row]
+
+        // Configure the cell (i.e., update UI elements like labels, image views, etc.)
+        cell.textLabel?.text = movie.title
+
+        // Return the cell for use in the respective table view row
+        return cell
+    }
+    
     // Fetches a list of popular movies from the TMDB API
     private func fetchMovies() {
 
@@ -70,7 +85,9 @@ class ViewController: UIViewController {
 
                     // We have movies! Do something with them!
                     print("✅ SUCCESS!!! Fetched \(movies.count) movies")
-
+                    self?.movies = movies
+                    
+                    self?.tableView.reloadData()
                     // Iterate over all movies and print out their details.
                     for movie in movies {
                         print("🍿 MOVIE ------------------")
