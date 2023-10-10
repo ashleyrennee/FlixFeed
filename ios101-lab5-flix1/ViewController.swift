@@ -27,17 +27,29 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Create the cell
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
 
-        // Get the movie-associated table view row
-        let movie = movies[indexPath.row]
+         // Get the movie associated table view row
+         let movie = movies[indexPath.row]
 
-        // Configure the cell (i.e., update UI elements like labels, image views, etc.)
-        cell.textLabel?.text = movie.title
+         // Configure the cell (i.e., update UI elements like labels, image views, etc.)
 
-        // Return the cell for use in the respective table view row
-        return cell
+         // Unwrap the optional poster path
+         if let posterPath = movie.poster_path,
+
+             // Create a url by appending the poster path to the base url. https://developers.themoviedb.org/3/getting-started/images
+            let imageUrl = URL(string: "https://image.tmdb.org/t/p/w500" + posterPath) {
+
+             // Use the Nuke library's load image function to (async) fetch and load the image from the image URL.
+             Nuke.loadImage(with: imageUrl, into: cell.movieImageView)
+         }
+
+         // Set the text on the labels
+         cell.movieTitle.text = movie.title
+         cell.movieOverview.text = movie.overview
+
+         // Return the cell for use in the respective table view row
+         return cell
     }
     
     // Fetches a list of popular movies from the TMDB API
