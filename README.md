@@ -6,14 +6,6 @@
 
 ### Required Features
 
-### 🎯 Goals
-
-By the end of this lab you will be able to...
-
-1. Fetch a an array of data objects from an API
-1. Display a list of objects in a table view
-1. Load and display remote images given a URL
-
 ### Features
 
 #### Required Features
